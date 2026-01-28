@@ -1,16 +1,19 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
+import { useParams } from 'next/navigation'
 import styles from './demo.module.css'
 
 const ENDPOINT = 'https://stoddardjoseph77--claude-orchestrator-demo-chat.modal.run'
 
 function formatCompanyName(slug) {
+  if (!slug) return 'Support'
   return slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
 }
 
-export default function DemoPage({ params }) {
-  const slug = params.slug
+export default function DemoPage() {
+  const params = useParams()
+  const slug = params?.slug || 'demo'
   const [sessionId, setSessionId] = useState('')
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
@@ -18,9 +21,16 @@ export default function DemoPage({ params }) {
   const [error, setError] = useState('')
   const [products, setProducts] = useState([])
   const [identifiedProduct, setIdentifiedProduct] = useState(null)
-  const [companyName, setCompanyName] = useState(formatCompanyName(slug))
+  const [companyName, setCompanyName] = useState('')
   const [hasSentMessage, setHasSentMessage] = useState(false)
   const messagesEndRef = useRef(null)
+
+  // Set initial company name when slug is available
+  useEffect(() => {
+    if (slug) {
+      setCompanyName(formatCompanyName(slug))
+    }
+  }, [slug])
 
   // Initialize session
   useEffect(() => {
