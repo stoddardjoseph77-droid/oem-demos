@@ -24,6 +24,7 @@ export default function DemoPage() {
   const [identifiedProduct, setIdentifiedProduct] = useState(null)
   const [companyName, setCompanyName] = useState('')
   const [hasSentMessage, setHasSentMessage] = useState(false)
+  const hasSentRef = useRef(false)
   const messagesEndRef = useRef(null)
 
   // Set initial company name when slug is available
@@ -87,7 +88,7 @@ export default function DemoPage() {
         if (typeof window !== 'undefined') {
           localStorage.setItem(`demo_products_${slug}`, JSON.stringify(data.products))
         }
-        if (!hasSentMessage) {
+        if (!hasSentRef.current) {
           const randomProduct = data.products[Math.floor(Math.random() * data.products.length)]
           setInput(`my ${randomProduct} is not functioning properly.`)
         }
@@ -104,6 +105,7 @@ export default function DemoPage() {
     if (!message || loading || !productsLoaded) return
 
     setHasSentMessage(true)
+    hasSentRef.current = true
     setInput('')
     setLoading(true)
     setError('')
