@@ -352,6 +352,52 @@ export default function DemoPage() {
             ))}
           </div>
 
+          {/* Parts E-Commerce Revenue */}
+          <div className={styles.partsSection}>
+            <h3><span>🛒</span> Direct Parts Revenue</h3>
+            <div className={styles.partsCallout}>
+              <div className={styles.partsCalloutIcon}>🔗</div>
+              <div className={styles.partsCalloutText}>
+                <strong>Auto-Detected Part Needs</strong>
+                <p>When the AI detects a customer needs a replacement part, it automatically sends a direct link to your e-commerce store or parts catalog. No distributor markup, no lost sales.</p>
+              </div>
+            </div>
+            <div className={styles.statsRow}>
+              <div className={styles.statBox}>
+                <div className={styles.statValue}>$14.2k</div>
+                <div className={styles.statLabel}>Parts Revenue (MTD)</div>
+              </div>
+              <div className={styles.statBox}>
+                <div className={styles.statValue}>68</div>
+                <div className={styles.statLabel}>Orders via AI</div>
+              </div>
+              <div className={styles.statBox}>
+                <div className={styles.statValue}>34%</div>
+                <div className={styles.statLabel}>Conversion Rate</div>
+              </div>
+            </div>
+            <div className={styles.chartCard}>
+              <div className={styles.chartCardTitle}>Parts Sales Through AI Support</div>
+              <div className={styles.horizontalBars}>
+                {[
+                  { label: 'Filters & Seals', width: '88%', value: '$4,890', color: 'linear-gradient(90deg, #10b981, #34d399)' },
+                  { label: 'Motor Assemblies', width: '72%', value: '$3,980', color: 'linear-gradient(90deg, #3b82f6, #60a5fa)' },
+                  { label: 'Sensor Modules', width: '55%', value: '$2,940', color: 'linear-gradient(90deg, #8b5cf6, #a78bfa)' },
+                  { label: 'Belts & Hoses', width: '38%', value: '$1,640', color: 'linear-gradient(90deg, #f97316, #fb923c)' },
+                  { label: 'Control Boards', width: '22%', value: '$750', color: 'linear-gradient(90deg, #06b6d4, #67e8f9)' },
+                ].map((bar, i) => (
+                  <div key={i} className={styles.hBarRow}>
+                    <span className={styles.hBarLabel}>{bar.label}</span>
+                    <div className={styles.hBarTrack}>
+                      <div className={styles.hBarFill} style={{ width: bar.width, background: bar.color }}></div>
+                    </div>
+                    <span className={styles.hBarValue}>{bar.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* Benefits */}
           <div className={styles.benefitsGrid}>
             {[
