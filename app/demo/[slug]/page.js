@@ -20,6 +20,7 @@ export default function DemoPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [products, setProducts] = useState([])
+  const [productsLoaded, setProductsLoaded] = useState(false)
   const [identifiedProduct, setIdentifiedProduct] = useState(null)
   const [companyName, setCompanyName] = useState('')
   const [hasSentMessage, setHasSentMessage] = useState(false)
@@ -52,6 +53,7 @@ export default function DemoPage() {
         const prods = JSON.parse(cached)
         if (prods && prods.length > 0) {
           setProducts(prods)
+          setProductsLoaded(true)
           const randomProduct = prods[Math.floor(Math.random() * prods.length)]
           setInput(`my ${randomProduct} is not functioning properly.`)
         }
@@ -64,10 +66,7 @@ export default function DemoPage() {
     loadCompanyInfo()
   }, [slug])
 
-  // Scroll to bottom on new messages
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+  // No auto-scroll - let the user control their own scroll position
 
   async function loadCompanyInfo() {
     try {
@@ -84,6 +83,7 @@ export default function DemoPage() {
 
       if (data.products && data.products.length > 0) {
         setProducts(data.products)
+        setProductsLoaded(true)
         if (typeof window !== 'undefined') {
           localStorage.setItem(`demo_products_${slug}`, JSON.stringify(data.products))
         }
@@ -94,13 +94,14 @@ export default function DemoPage() {
       }
     } catch (err) {
       console.error('Failed to load company info:', err)
+      setProductsLoaded(true)
     }
   }
 
   async function sendMessage(e) {
     e?.preventDefault()
     const message = input.trim()
-    if (!message || loading) return
+    if (!message || loading || !productsLoaded) return
 
     setHasSentMessage(true)
     setInput('')
@@ -221,7 +222,9 @@ export default function DemoPage() {
                 placeholder="Describe your issue..."
                 autoComplete="off"
               />
-              <button type="submit" disabled={loading}>Send</button>
+              <button type="submit" disabled={loading || !productsLoaded}>
+                {productsLoaded ? 'Send' : 'Loading...'}
+              </button>
             </form>
           </div>
 
